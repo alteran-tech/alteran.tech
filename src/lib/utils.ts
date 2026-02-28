@@ -10,17 +10,33 @@ export function cn(...inputs: ClassValue[]): string {
 }
 
 /**
- * Strips the origin from own-hosted upload URLs so next/image treats them as local paths.
- * e.g. "https://alteran.tech/uploads/img.png" → "/uploads/img.png"
+ * Normalizes upload URLs to go through the /api/uploads/ route.
+ * - "https://alteran.tech/uploads/img.png" → "/api/uploads/img.png"
+ * - "/uploads/img.png" → "/api/uploads/img.png"
+ * - "/api/uploads/img.png" → "/api/uploads/img.png" (already correct)
+ * - External URLs (GitHub etc.) → unchanged
  */
 export function normalizeImageUrl(url: string | null | undefined): string | null {
   if (!url) return null;
+
+  // Already using the API route
+  if (url.startsWith("/api/uploads/")) return url;
+
+  // Relative /uploads/ path
+  if (url.startsWith("/uploads/")) {
+    return `/api/uploads/${url.slice("/uploads/".length)}`;
+  }
+
+  // Absolute URL with /uploads/ path — strip the origin
   try {
     const parsed = new URL(url);
-    if (parsed.pathname.startsWith("/uploads/")) return parsed.pathname;
+    if (parsed.pathname.startsWith("/uploads/")) {
+      return `/api/uploads/${parsed.pathname.slice("/uploads/".length)}`;
+    }
   } catch {
-    // already a relative path
+    // not a valid absolute URL — return as-is
   }
+
   return url;
 }
 

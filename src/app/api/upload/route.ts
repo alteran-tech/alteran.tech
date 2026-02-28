@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/auth";
-import { writeFile } from "fs/promises";
+import { writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 
 const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
@@ -51,8 +51,9 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const uploadDir = join(process.cwd(), "public", "uploads");
+    await mkdir(uploadDir, { recursive: true });
     await writeFile(join(uploadDir, filename), buffer);
-    return NextResponse.json({ url: `/uploads/${filename}` });
+    return NextResponse.json({ url: `/api/uploads/${filename}` });
   } catch (err) {
     console.error("Upload error:", err);
     return NextResponse.json(

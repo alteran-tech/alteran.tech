@@ -47,7 +47,10 @@ alteran.tech/
 │   │   │               └── edit-form.tsx          # Client: pre-populated edit form
 │   │   ├── api/
 │   │   │   ├── upload/
-│   │   │   │   └── route.ts                  # POST (auth): image upload to Vercel Blob
+│   │   │   │   └── route.ts                  # POST (auth): image upload to public/uploads/
+│   │   │   ├── uploads/
+│   │   │   │   └── [filename]/
+│   │   │   │       └── route.ts              # GET (public): serves uploaded images from public/uploads/
 │   │   │   ├── auth/
 │   │   │   │   ├── login/
 │   │   │   │   │   └── route.ts                  # POST: password check, sets admin_session cookie
