@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { normalizeImageUrl } from "@/lib/utils";
 
 interface ImageUploadProps {
   label?: string;
@@ -84,7 +85,7 @@ export function ImageUpload({ label = "Изображение", value, onChange 
         <div className="relative rounded-lg overflow-hidden border border-ancient-teal/20 group">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={value}
+            src={normalizeImageUrl(value) ?? value}
             alt="Превью"
             className="w-full h-40 object-cover"
             onError={() => setError("Не удалось загрузить изображение по этому URL")}
