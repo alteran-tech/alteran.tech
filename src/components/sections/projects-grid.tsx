@@ -14,16 +14,14 @@ import { ProjectCard } from "@/components/project/project-card";
 export async function ProjectsGrid() {
   let allProjects: (typeof projects.$inferSelect)[] = [];
 
-  if (process.env.TURSO_DATABASE_URL) {
-    try {
-      allProjects = await db
-        .select()
-        .from(projects)
-        .where(eq(projects.status, "published"))
-        .orderBy(desc(projects.featured), asc(projects.sortOrder), desc(projects.createdAt));
-    } catch {
-      // DB query failed -- show empty state
-    }
+  try {
+    allProjects = await db
+      .select()
+      .from(projects)
+      .where(eq(projects.status, "published"))
+      .orderBy(desc(projects.featured), asc(projects.sortOrder), desc(projects.createdAt));
+  } catch {
+    // DB query failed -- show empty state
   }
 
   return (
