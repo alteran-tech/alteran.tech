@@ -59,8 +59,8 @@ step 2 "Environment validation"
 ENV_FILE=".env.local"
 if [[ ! -f "$ENV_FILE" ]]; then
   # Production can also read from system environment
-  if [[ -z "${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:-}" ]]; then
-    error ".env.local not found and NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY not set."
+  if [[ -z "${ADMIN_PASSWORD:-}" ]]; then
+    error ".env.local not found and ADMIN_PASSWORD not set."
     error "Create .env.local from .env.local.example and fill in credentials."
     exit 1
   fi
@@ -86,8 +86,8 @@ require_var() {
     MISSING+=("$name")
   fi
 }
-require_var "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY"
-require_var "CLERK_SECRET_KEY"
+require_var "ADMIN_PASSWORD"
+require_var "AUTH_SECRET"
 
 if [[ ${#MISSING[@]} -gt 0 ]]; then
   error "Missing required environment variables:"
@@ -99,7 +99,6 @@ if [[ ${#MISSING[@]} -gt 0 ]]; then
   exit 1
 fi
 
-# Resolve DATABASE_URL (defaults to local SQLite file)
 DB_URL=$(get_var "DATABASE_URL")
 export DATABASE_URL="${DB_URL:-file:./alteran.db}"
 success "All required variables set (${ENV_FILE})"
@@ -122,7 +121,7 @@ if [[ "$jump_to_start" == "false" ]]; then
 
   # ── 4. SQLite schema sync ─────────────────────────────────────────────────────
   step 4 "Database schema sync"
-  if npm run db:push -- --yes; then
+  if npm run db:push; then
     success "Schema applied  →  ${DATABASE_URL}"
   else
     error "DB push failed for ${DATABASE_URL}"
@@ -148,6 +147,7 @@ fi
 # ── 6. Start ──────────────────────────────────────────────────────────────────
 step 6 "Starting production server"
 
+PORT="${PORT:-$(get_var PORT)}"
 PORT="${PORT:-3000}"
 echo ""
 echo -e "${TEAL}${BOLD}  Server running at:${RESET}"

@@ -1,5 +1,4 @@
 # alteran.tech
-<<<<<<< HEAD
 
 Корпоративный сайт-портфолио компании Alteran. Демонстрирует проекты, технологическую экспертизу и услуги компании.
 
@@ -11,7 +10,7 @@
 | Язык | TypeScript (strict mode) |
 | Стили | Tailwind CSS v4 |
 | Темизация | next-themes (тёмная/светлая через `data-theme`) |
-| База данных | Turso + Drizzle ORM (serverless libSQL) |
+| База данных | SQLite + Drizzle ORM (локальный файл) |
 | Авторизация | Кастомная HMAC-SHA256 сессия (Web Crypto API) |
 | Хранилище | Vercel Blob (загрузка изображений) |
 | GitHub API | GraphQL + кэш Turso |
@@ -23,13 +22,12 @@
 Скопируйте `.env.local.example` в `.env.local` и заполните значения:
 
 ```env
-TURSO_DATABASE_URL=       # URL базы данных Turso
-TURSO_AUTH_TOKEN=         # Токен авторизации Turso
-ADMIN_PASSWORD=           # Пароль для входа в админ-панель
-AUTH_SECRET=              # Секрет для HMAC подписи сессий (минимум 32 символа)
-GITHUB_TOKEN=             # Токен GitHub API (для импорта репозиториев)
-OPENROUTER_API_KEY=       # Ключ OpenRouter API (для AI-генерации)
-NEXT_PUBLIC_SITE_URL=     # Публичный URL сайта (например https://alteran.tech)
+DATABASE_URL=             # Путь к SQLite файлу (по умолчанию file:./alteran.db)
+ADMIN_PASSWORD=           # Пароль для входа в админ-панель (обязательно)
+AUTH_SECRET=              # Секрет для HMAC подписи сессий, минимум 32 символа (обязательно)
+GITHUB_TOKEN=             # Токен GitHub API, для импорта репозиториев (опционально)
+OPENROUTER_API_KEY=       # Ключ OpenRouter API, для AI-генерации (опционально)
+NEXT_PUBLIC_SITE_URL=     # Публичный URL сайта, например https://alteran.tech (опционально)
 ```
 
 ## Запуск проекта
@@ -113,6 +111,3 @@ src/
 - **Загрузка изображений** — drag-and-drop загрузка в Vercel Blob
 - **Переключение темы** — тёмная (deep space) / светлая (parchment)
 - **Настройки** — редактируемые контактные данные (GitHub, email) через админ-панель
-=======
-main site
->>>>>>> bc7f45dbb684bad5c42777d9a85ff70dae327a4d

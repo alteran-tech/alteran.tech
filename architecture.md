@@ -364,7 +364,7 @@ TypeScript types for OpenRouter API integration:
 
 ### [drizzle.config.ts](drizzle.config.ts)
 Drizzle Kit configuration:
-- `dialect`: `"turso"`
+- `dialect`: `"sqlite"`
 - `schema`: `"./src/lib/db/schema.ts"`
 - `out`: `"./drizzle"` (migration output directory)
 - `dbCredentials`: reads `TURSO_DATABASE_URL` and `TURSO_AUTH_TOKEN` from env
