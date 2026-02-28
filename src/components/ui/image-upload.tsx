@@ -181,7 +181,7 @@ export function ImageUpload({ label = "Изображение", value, onChange 
       </div>
 
       <input
-        type="url"
+        type="text"
         value={value}
         onChange={(e) => {
           setError(null);
